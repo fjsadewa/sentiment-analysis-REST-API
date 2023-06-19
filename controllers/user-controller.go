@@ -12,16 +12,23 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//UserController adalah interface yang menyediakan operasi-operasi untuk mengelola pengguna.
 type UserController interface {
 	Update(context *gin.Context)
 	Profile(context *gin.Context)
 }
 
+//userController adalah implementasi dari UserController.
 type userController struct {
 	userService service.UserService
 	jwtService  service.JWTService
 }
 
+/*
+NewUserController digunakan untuk membuat instance baru dari userController.
+Fungsi ini menerima userService dan jwtService yang digunakan oleh controller.
+Fungsi ini mengembalikan instance baru dari UserController.
+*/
 func NewUserController(userService service.UserService, jwtService service.JWTService) UserController {
 	return &userController{
 		userService: userService,
@@ -29,6 +36,7 @@ func NewUserController(userService service.UserService, jwtService service.JWTSe
 	}
 }
 
+//Update digunakan untuk memperbarui informasi pengguna.
 func (c *userController) Update(context *gin.Context) {
 	var userUpdateDTO dto.UserUpdateDTO
 	errDTO := context.ShouldBind(&userUpdateDTO)
@@ -54,6 +62,7 @@ func (c *userController) Update(context *gin.Context) {
 	context.JSON(http.StatusOK, res)
 }
 
+//Profile digunakan untuk mengambil profil pengguna.
 func (c *userController) Profile(context *gin.Context) {
 	authHeader := context.GetHeader("Authorization")
 	token, err := c.jwtService.ValidateToken(authHeader)

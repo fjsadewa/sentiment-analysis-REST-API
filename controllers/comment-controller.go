@@ -10,6 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//CommentController adalah interface yang mendefinisikan kontrak untuk controller komentar.
 type CommentController interface {
 	Create(ctx *gin.Context)
 	Update(ctx *gin.Context)
@@ -18,11 +19,13 @@ type CommentController interface {
 	Delete(ctx *gin.Context)
 }
 
+//commentController adalah implementasi dari CommentController.
 type commentController struct {
 	commentService service.CommentService
 	jwtService     service.JWTService
 }
 
+//NewCommentController digunakan untuk membuat instance baru dari commentController.
 func NewCommentController(commentService service.CommentService, jwtService service.JWTService) CommentController {
 	return &commentController{
 		commentService: commentService,
@@ -30,6 +33,7 @@ func NewCommentController(commentService service.CommentService, jwtService serv
 	}
 }
 
+//Create adalah implementasi dari method Create pada interface CommentController.
 func (c *commentController) Create(ctx *gin.Context) {
 	var commentCreate dto.CommentCreateDTO
 	errDTO := ctx.ShouldBind(&commentCreate)
@@ -43,6 +47,7 @@ func (c *commentController) Create(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
+//Update adalah implementasi dari method Update pada interface CommentController.
 func (c *commentController) Update(ctx *gin.Context) {
 	var commentUpdateDTO dto.CommentUpdateDTO
 	errDTO := ctx.ShouldBind(&commentUpdateDTO)
@@ -58,12 +63,14 @@ func (c *commentController) Update(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
+//GetAllData adalah implementasi dari method GetAllData pada interface CommentController.
 func (c *commentController) GetAllData(ctx *gin.Context) {
 	comments := c.commentService.GetAllComment()
 	res := helper.BuildResponse(true, "OK!", comments)
 	ctx.JSON(http.StatusOK, res)
 }
 
+//GetDataByID adalah implementasi dari method GetDataByID pada interface CommentController.
 func (c *commentController) GetDataByID(ctx *gin.Context) {
 	id := ctx.Param("id")
 	commentID, _ := strconv.ParseUint(id, 0, 0)
@@ -77,6 +84,7 @@ func (c *commentController) GetDataByID(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
+//Delete adalah implementasi dari method Delete pada interface CommentController.
 func (c *commentController) Delete(ctx *gin.Context) {
 	id := ctx.Param("id")
 	commentID, _ := strconv.ParseUint(id, 0, 0)

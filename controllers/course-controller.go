@@ -10,6 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//CourseController adalah interface yang mendefinisikan kontrak untuk controller kursus.
 type CourseController interface {
 	Create(ctx *gin.Context)
 	Update(ctx *gin.Context)
@@ -18,11 +19,13 @@ type CourseController interface {
 	Delete(ctx *gin.Context)
 }
 
+//courseController adalah implementasi dari CourseController.
 type courseController struct {
 	courseService service.CourseService
 	jwtService    service.JWTService
 }
 
+//NewCourseController digunakan untuk membuat instance baru dari courseController.
 func NewCourseController(courseService service.CourseService, jwtService service.JWTService) CourseController {
 	return &courseController{
 		courseService: courseService,
@@ -30,6 +33,7 @@ func NewCourseController(courseService service.CourseService, jwtService service
 	}
 }
 
+//Create adalah implementasi dari method Create pada interface CourseController.
 func (c *courseController) Create(ctx *gin.Context) {
 	var courseCreate dto.CourseCreateDTO
 	errDTO := ctx.ShouldBind(&courseCreate)
@@ -43,6 +47,7 @@ func (c *courseController) Create(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
+//Update adalah implementasi dari method Update pada interface CourseController.
 func (c *courseController) Update(ctx *gin.Context) {
 	var courseUpdateDTO dto.CourseUpdateDTO
 	errDTO := ctx.ShouldBind(&courseUpdateDTO)
@@ -58,12 +63,14 @@ func (c *courseController) Update(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
+//GetAllData adalah implementasi dari method GetAllData pada interface CourseController.
 func (c *courseController) GetAllData(ctx *gin.Context) {
 	courses := c.courseService.GetAllCourse()
 	res := helper.BuildResponse(true, "OK!", courses)
 	ctx.JSON(http.StatusOK, res)
 }
 
+//GetDataByID adalah implementasi dari method GetDataByID pada interface CourseController.
 func (c *courseController) GetDataByID(ctx *gin.Context) {
 	id := ctx.Param("id")
 	courseID, _ := strconv.ParseUint(id, 0, 0)
@@ -77,6 +84,7 @@ func (c *courseController) GetDataByID(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
+//Delete adalah implementasi dari method Delete pada interface CourseController.
 func (c *courseController) Delete(ctx *gin.Context) {
 	id := ctx.Param("id")
 	courseID, _ := strconv.ParseUint(id, 0, 0)

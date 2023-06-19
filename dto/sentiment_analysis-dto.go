@@ -1,11 +1,13 @@
 package dto
 
+//SentimenAnalysisCreateDTO merupakan objek transfer data untuk membuat analisis sentimen.
 type SentimenAnalysisCreateDTO struct {
 	SentimentType   string  `json:"sentiment_type" form:"sentiment_type" binding:"required"`
 	CommentID       uint64  `json:"comment_id" form:"comment_id" binding:"required"`
 	ConfidenceLevel float64 `json:"confidence_level" form:"confidence_level" binding:"required"`
 }
 
+//SentimenAnalysisUpdateDTO merupakan objek transfer data untuk memperbarui analisis sentimen.
 type SentimenAnalysisUpdateDTO struct {
 	ID              uint64  `json:"id" form:"id" binding:"required"`
 	SentimentType   string  `json:"sentiment_type" form:"sentiment_type" binding:"required"`
@@ -13,6 +15,7 @@ type SentimenAnalysisUpdateDTO struct {
 	ConfidenceLevel float64 `json:"confidence_level" form:"confidence_level" binding:"required"`
 }
 
+//SentimenAnalysisDTO merupakan objek transfer data untuk analisis sentimen.
 type SentimenAnalysisDTO struct {
 	ID               uint64  `json:"id" form:"id" binding:"required"`
 	SentimentType    string  `json:"sentiment_type" form:"sentiment_type" binding:"required"`
@@ -31,3 +34,41 @@ type SentimenAnalysisDTO struct {
 	SchoolYear       uint    `json:"school_year" form:"school_year" binding:"required"`
 	Semester         uint    `json:"semester" form:"semester" binding:"required"`
 }
+
+/*
+ * SentimenAnalysisCreateDTO merupakan objek transfer data untuk membuat analisis sentimen.
+ *
+ * SentimentType: Jenis sentimen dari analisis. Wajib diisi.
+ * CommentID: ID komentar yang akan dianalisis. Wajib diisi.
+ * ConfidenceLevel: Tingkat kepercayaan terhadap hasil analisis. Wajib diisi.
+ *
+ * SentimenAnalysisUpdateDTO merupakan objek transfer data untuk memperbarui analisis sentimen.
+ *
+ * ID: ID analisis sentimen yang akan diperbarui. Wajib diisi.
+ * SentimentType: Jenis sentimen dari analisis. Wajib diisi.
+ * CommentID: ID komentar yang akan dianalisis. Wajib diisi.
+ * ConfidenceLevel: Tingkat kepercayaan terhadap hasil analisis. Wajib diisi.
+ *
+ * SentimenAnalysisDTO merupakan objek transfer data untuk analisis sentimen.
+ *
+ * ID: ID analisis sentimen. Wajib diisi.
+ * SentimentType: Jenis sentimen dari analisis. Wajib diisi.
+ * ConfidenceLevel: Tingkat kepercayaan terhadap hasil analisis. Wajib diisi.
+ * CommentID: ID komentar yang dianalisis. Wajib diisi.
+ * Comment: Isi komentar yang dianalisis. Wajib diisi.
+ * CourseID: ID kursus terkait dengan komentar. Wajib diisi.
+ * CourseCode: Kode kursus terkait dengan komentar. Wajib diisi.
+ * CourseName: Nama kursus terkait dengan komentar. Wajib diisi.
+ * LecturerID: ID dosen terkait dengan komentar. Wajib diisi.
+ * LecturerCode: Kode dosen terkait dengan komentar. Wajib diisi.
+ * LecturerName: Nama dosen terkait dengan komentar. Wajib diisi.
+ * StudyProgramID: ID program studi terkait dengan komentar. Wajib diisi.
+ * StudyProgramCode: Kode program studi terkait dengan komentar. Wajib diisi.
+ * StudyProgramName: Nama program studi terkait dengan komentar. Wajib diisi.
+ * SchoolYear: Tahun ajaran terkait dengan komentar. Wajib diisi.
+ * Semester: Semester terkait dengan komentar. Wajib diisi.
+ *
+ * Tag JSON menentukan nama properti ketika data dikirim dalam format JSON.
+ * Tag form menentukan nama properti ketika data dikirim melalui formulir HTML.
+ * Tag binding menentukan aturan validasi untuk pengikatan properti.
+ */

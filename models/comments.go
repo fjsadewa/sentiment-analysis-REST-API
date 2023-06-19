@@ -2,6 +2,7 @@ package models
 
 import "time"
 
+//Comments merupakan model untuk tabel komentar
 type Comments struct {
 	ID         uint64    `gorm:"primaryKey;autoIncrement" json:"id"`
 	Comment    string    `gorm:"type:text" json:"comment"`
@@ -16,6 +17,32 @@ type Comments struct {
 	DeletedAt  time.Time `gorm:"index"  json:"deleted_at,omitempty"`
 }
 
+//TableName digunakan untuk mengembalikan nama tabel yang sesuai
 func (Comments) TableName() string {
 	return "comments"
 }
+
+/*
+ * Keterangan:
+ *
+ * Package models berisi definisi model data yang sesuai dengan struktur tabel pada database.
+ * Struct Comments merepresentasikan tabel komentar pada database.
+ *
+ * Properti-properti pada struct Comments adalah sebagai berikut:
+ * - ID: ID unik komentar (kolom primaryKey).
+ * - Comment: Isi komentar (tipe text).
+ * - CourseID: ID kursus yang terkait dengan komentar (kolom foreignKey).
+ * - Course: Objek kursus yang terkait dengan komentar.
+ * - LecturerID: ID dosen yang terkait dengan komentar (kolom foreignKey).
+ * - Lecturer: Objek dosen yang terkait dengan komentar.
+ * - SchoolYear: Tahun ajaran komentar dibuat.
+ * - Semester: Semester komentar dibuat.
+ * - CreatedAt: Waktu pembuatan komentar.
+ * - UpdatedAt: Waktu terakhir komentar diperbarui.
+ * - DeletedAt: Waktu penghapusan komentar (kolom index, akan bernilai NULL jika belum dihapus).
+ *
+ * Method TableName digunakan untuk mengembalikan nama tabel yang sesuai dengan struktur.
+ *
+ * Pastikan untuk menggunakan model ini sesuai dengan struktur tabel komentar pada database.
+ * Anda dapat menyertakan komentar ini dalam bahasa Indonesia pada kode yang relevan.
+ */

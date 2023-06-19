@@ -10,6 +10,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+/*
+SentimenAnalysisController adalah interface yang menyediakan operasi-operasi untuk mengelola data analisis sentimen.
+*/
 type SentimenAnalysisController interface {
 	Create(ctx *gin.Context)
 	Update(ctx *gin.Context)
@@ -18,11 +21,17 @@ type SentimenAnalysisController interface {
 	Delete(ctx *gin.Context)
 }
 
+//sentimenAnalysisController adalah implementasi dari SentimenAnalysisController.
 type sentimenAnalysisController struct {
 	sentimenAnalysisService service.SentimenAnalysisService
 	jwtService              service.JWTService
 }
 
+/*
+NewSentimenAnalysisController digunakan untuk membuat instance baru dari sentimenAnalysisController.
+Fungsi ini menerima sentimenAnalysisService dan jwtService yang digunakan oleh controller.
+Fungsi ini mengembalikan instance baru dari SentimenAnalysisController.
+*/
 func NewSentimenAnalysisController(sentimenAnalysisService service.SentimenAnalysisService, jwtService service.JWTService) SentimenAnalysisController {
 	return &sentimenAnalysisController{
 		sentimenAnalysisService: sentimenAnalysisService,
@@ -30,6 +39,7 @@ func NewSentimenAnalysisController(sentimenAnalysisService service.SentimenAnaly
 	}
 }
 
+//Create digunakan untuk membuat data analisis sentimen baru.
 func (c *sentimenAnalysisController) Create(ctx *gin.Context) {
 	var sentimenAnalysisCreate dto.SentimenAnalysisCreateDTO
 	errDTO := ctx.ShouldBind(&sentimenAnalysisCreate)
@@ -43,6 +53,7 @@ func (c *sentimenAnalysisController) Create(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
+//Update digunakan untuk memperbarui data analisis sentimen yang sudah ada.
 func (c *sentimenAnalysisController) Update(ctx *gin.Context) {
 	var sentimenAnalysisUpdateDTO dto.SentimenAnalysisUpdateDTO
 	errDTO := ctx.ShouldBind(&sentimenAnalysisUpdateDTO)
@@ -58,12 +69,14 @@ func (c *sentimenAnalysisController) Update(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
+//GetAllData digunakan untuk mengambil semua data analisis sentimen.
 func (c *sentimenAnalysisController) GetAllData(ctx *gin.Context) {
 	sentimenAnalysiss := c.sentimenAnalysisService.GetAllSentimenAnalysis()
 	res := helper.BuildResponse(true, "OK!", sentimenAnalysiss)
 	ctx.JSON(http.StatusOK, res)
 }
 
+//GetDataByID digunakan untuk mengambil data analisis sentimen berdasarkan ID.
 func (c *sentimenAnalysisController) GetDataByID(ctx *gin.Context) {
 	id := ctx.Param("id")
 	sentimenAnalysisID, _ := strconv.ParseUint(id, 0, 0)
@@ -77,6 +90,7 @@ func (c *sentimenAnalysisController) GetDataByID(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
+//Delete digunakan untuk menghapus data analisis sentimen berdasarkan ID.
 func (c *sentimenAnalysisController) Delete(ctx *gin.Context) {
 	id := ctx.Param("id")
 	sentimenAnalysisID, _ := strconv.ParseUint(id, 0, 0)

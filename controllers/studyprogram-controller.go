@@ -10,6 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//StudyProgramController adalah interface yang menyediakan operasi-operasi untuk mengelola program studi.
 type StudyProgramController interface {
 	Create(ctx *gin.Context)
 	Update(ctx *gin.Context)
@@ -19,11 +20,16 @@ type StudyProgramController interface {
 	FindByCode(ctx *gin.Context)
 }
 
+//studyProgramController adalah implementasi dari StudyProgramController.
 type studyProgramController struct {
 	studyProgramService service.StudyProgramService
 	jwtService          service.JWTService
 }
-
+/*
+NewStudyProgramController digunakan untuk membuat instance baru dari studyProgramController.
+Fungsi ini menerima studyProgramService dan jwtService yang digunakan oleh controller.
+Fungsi ini mengembalikan instance baru dari StudyProgramController.
+*/
 func NewStudyProgramController(studyProgramService service.StudyProgramService, jwtService service.JWTService) StudyProgramController {
 	return &studyProgramController{
 		studyProgramService: studyProgramService,
@@ -31,6 +37,7 @@ func NewStudyProgramController(studyProgramService service.StudyProgramService, 
 	}
 }
 
+//Create digunakan untuk membuat program studi baru.
 func (c *studyProgramController) Create(ctx *gin.Context) {
 	// create study program
 	var studyProgramCreateDTO dto.StudyProgramCreateDTO
@@ -45,6 +52,7 @@ func (c *studyProgramController) Create(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
+//Update digunakan untuk memperbarui program studi yang sudah ada.
 func (c *studyProgramController) Update(ctx *gin.Context) {
 	var studyProgramUpdateDTO dto.StudyProgramUpdateDTO
 	errDTO := ctx.ShouldBind(&studyProgramUpdateDTO)
@@ -60,6 +68,7 @@ func (c *studyProgramController) Update(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
+//Delete digunakan untuk menghapus program studi berdasarkan ID.
 func (c *studyProgramController) Delete(ctx *gin.Context) {
 	studyProgramID := ctx.Param("id")
 
@@ -82,12 +91,14 @@ func (c *studyProgramController) Delete(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
+//All digunakan untuk mengambil semua program studi.
 func (c *studyProgramController) All(ctx *gin.Context) {
 	studyPrograms := c.studyProgramService.AllProdi()
 	res := helper.BuildResponse(true, "OK!", studyPrograms)
 	ctx.JSON(http.StatusOK, res)
 }
 
+//FindByID digunakan untuk mencari program studi berdasarkan ID.
 func (c *studyProgramController) FindByID(ctx *gin.Context) {
 	id := ctx.Param("id")
 
@@ -103,6 +114,7 @@ func (c *studyProgramController) FindByID(ctx *gin.Context) {
 	}
 }
 
+//FindByCode digunakan untuk mencari program studi berdasarkan kode.
 func (c *studyProgramController) FindByCode(ctx *gin.Context) {
 	var studyProgramCode dto.StudyProgramCodeDTO
 	errDTO := ctx.ShouldBind(&studyProgramCode)

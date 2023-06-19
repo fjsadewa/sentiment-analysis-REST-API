@@ -38,33 +38,40 @@ var (
 )
 
 func main() {
+	//Mengatur koneksi database
 	defer config.CloseDatabaseConnection(db)
 
+	//Mengatur port yang digunakan oleh server
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
 	}
-
+	
+	//Membuat instance router menggunakan gin framework
 	router := gin.Default()
 
+	//Rute untuk permintaan root
 	router.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "Hello world!",
 		})
 	})
 
+	//Rute untuk permintaan otentikasi
 	authRoute := router.Group("auth")
 	{
 		authRoute.POST("/login", authController.Login)
 		authRoute.POST("/register", authController.Register)
 	}
 
+	//Rute untuk permintaan pengguna
 	userRoutes := router.Group("users", middleware.AuthorizeJWT(jwtService))
 	{
 		userRoutes.GET("/profile", userController.Profile)
 		userRoutes.PUT("/profile", userController.Update)
 	}
 
+	//Rute untuk permintaan program studi
 	studyProgramRoutes := router.Group("study-program", middleware.AuthorizeJWT(jwtService))
 	{
 		studyProgramRoutes.POST("/", studyProgramController.Create)
@@ -75,6 +82,7 @@ func main() {
 		studyProgramRoutes.GET("/code/:code", studyProgramController.FindByCode)
 	}
 
+	//Rute untuk permintaan dosen
 	lecturerRoutes := router.Group("lecturer", middleware.AuthorizeJWT(jwtService))
 	{
 		lecturerRoutes.POST("/", lecturerController.Create)
@@ -84,6 +92,7 @@ func main() {
 		lecturerRoutes.DELETE("/:id", lecturerController.Delete)
 	}
 
+	//Rute untuk permintaan kursus
 	courseRoutes := router.Group("course", middleware.AuthorizeJWT(jwtService))
 	{
 		courseRoutes.POST("/", courseController.Create)
@@ -93,6 +102,7 @@ func main() {
 		courseRoutes.DELETE("/:id", courseController.Delete)
 	}
 
+	//Rute untuk permintaan komentar
 	commentRoutes := router.Group("comment", middleware.AuthorizeJWT(jwtService))
 	{
 		commentRoutes.POST("/", commentController.Create)
@@ -102,6 +112,7 @@ func main() {
 		commentRoutes.DELETE("/:id", commentController.Delete)
 	}
 
+	//Rute untuk permintaan analisis sentimen
 	sentimenAnalysisRoutes := router.Group("sentiment-analysis", middleware.AuthorizeJWT(jwtService))
 	{
 		sentimenAnalysisRoutes.POST("/", sentimentAnalysisCont.Create)
@@ -111,5 +122,6 @@ func main() {
 		sentimenAnalysisRoutes.DELETE("/:id", sentimentAnalysisCont.Delete)
 	}
 
+	//Menjalankan server pada port yang telah ditentukan
 	router.Run(":" + port)
 }

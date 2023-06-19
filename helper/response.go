@@ -4,7 +4,7 @@ import (
 	"strings"
 )
 
-// RESPONSE IS USED FOR STATIC SHAPE JSON RETURN
+//Response digunakan untuk bentuk JSON yang memiliki struktur tetap
 type Response struct {
 	Status  bool        `json:"status"`
 	Message string      `json:"message"`
@@ -12,10 +12,10 @@ type Response struct {
 	Data    interface{} `json:"data"`
 }
 
-// IS USED WHEN DATA DOESNT WANT TO BE NULL ON JSON
+//EmptyObj digunakan ketika data tidak ingin bernilai null pada JSON
 type EmptyObj struct{}
 
-// THIS METHOD IS USED TO INJECT DATA VALUE TO DYNAMIC SUCCESS RESPONSE
+//BuildResponse digunakan untuk menyisipkan nilai data ke dalam respons sukses yang dinamis
 func BuildResponse(status bool, message string, data interface{}) Response {
 	res := Response{
 		Status:  status,
@@ -26,7 +26,7 @@ func BuildResponse(status bool, message string, data interface{}) Response {
 	return res
 }
 
-// THIS METHOD IS USED TO INJECT DATA VALUE TO DYNAMIC FAILED RESPONSE
+//BuildErrorResponse digunakan untuk menyisipkan nilai data ke dalam respons gagal yang dinamis
 func BuildErrorResponse(message string, err string, data interface{}) Response {
 	splittedError := strings.Split(err, "\n")
 	res := Response{
@@ -37,3 +37,19 @@ func BuildErrorResponse(message string, err string, data interface{}) Response {
 	}
 	return res
 }
+
+/*
+ * Keterangan:
+ *
+ * Paket helper berisi fungsi-fungsi yang membantu dalam pembuatan respons JSON yang konsisten.
+ * Struct Response digunakan untuk bentuk JSON dengan struktur tetap.
+ * Struct EmptyObj digunakan ketika data tidak ingin memiliki nilai null pada JSON.
+ *
+ * Fungsi BuildResponse digunakan untuk menyisipkan nilai data ke dalam respons sukses yang dinamis.
+ * Fungsi BuildErrorResponse digunakan untuk menyisipkan nilai data ke dalam respons gagal yang dinamis.
+ * Pada BuildErrorResponse, pesan kesalahan dipecah menjadi array menggunakan pemisah "\n".
+ *
+ * Pastikan untuk menggunakan fungsi-fungsi ini sesuai kebutuhan saat membangun respons JSON.
+ * Anda dapat menggunakan Response dengan memasukkan status, pesan, kesalahan (jika ada), dan data yang relevan.
+ * Pastikan untuk menyertakan komentar ini dalam bahasa Indonesia pada kode yang relevan.
+ */

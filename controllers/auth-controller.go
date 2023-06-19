@@ -2,25 +2,28 @@ package controllers
 
 import (
 	"net/http"
-	"strconv"
 	"sentiment/dto"
 	"sentiment/helper"
 	"sentiment/models"
 	"sentiment/service"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
 
+//AuthController adalah interface yang mendefinisikan kontrak untuk controller otentikasi.
 type AuthController interface {
 	Login(ctx *gin.Context)
 	Register(ctx *gin.Context)
 }
 
+//authController adalah implementasi dari AuthController.
 type authController struct {
 	authService service.AuthService
 	jwtService  service.JWTService
 }
 
+//NewAuthController digunakan untuk membuat instance baru dari authController.
 func NewAuthController(authService service.AuthService, jwtService service.JWTService) AuthController {
 	return &authController{
 		authService: authService,
@@ -28,6 +31,7 @@ func NewAuthController(authService service.AuthService, jwtService service.JWTSe
 	}
 }
 
+//Login adalah implementasi dari method Login pada interface AuthController.
 func (c *authController) Login(ctx *gin.Context) {
 	var loginDTO dto.LoginDTO
 	errDTO := ctx.ShouldBind(&loginDTO)
@@ -48,6 +52,7 @@ func (c *authController) Login(ctx *gin.Context) {
 	ctx.AbortWithStatusJSON(http.StatusUnauthorized, response)
 }
 
+//Register adalah implementasi dari method Register pada interface AuthController.
 func (c *authController) Register(ctx *gin.Context) {
 	var registerDTO dto.RegisterDTO
 	errDTO := ctx.ShouldBind(&registerDTO)

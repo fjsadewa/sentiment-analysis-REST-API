@@ -1,5 +1,6 @@
 package dto
 
+//CommentCreateDTO digunakan untuk membuat objek komentar baru
 type CommentCreateDTO struct {
 	SentimentType   string  `json:"sentiment_type" form:"sentiment_type"`
 	ConfidenceLevel float64 `json:"confidence_level" form:"confidence_level"`
@@ -10,6 +11,7 @@ type CommentCreateDTO struct {
 	Semester        uint    `json:"semester" form:"semester" binding:"required"`
 }
 
+//CommentUpdateDTO digunakan untuk memperbarui objek komentar yang ada. 
 type CommentUpdateDTO struct {
 	ID              uint64  `json:"id" form:"id" binding:"required"`
 	SentimentType   string  `json:"sentiment_type" form:"sentiment_type"`
@@ -21,6 +23,7 @@ type CommentUpdateDTO struct {
 	Semester        uint    `json:"semester" form:"semester" binding:"required"`
 }
 
+//CommentDTO digunakan untuk mengirim informasi komentar ke komponen lain.
 type CommentDTO struct {
 	CommentID        uint64 `json:"comment_id" form:"id" binding:"required"`
 	Comment          string `json:"comment" form:"comment" binding:"required"`
@@ -36,3 +39,20 @@ type CommentDTO struct {
 	SchoolYear       uint   `json:"school_year" form:"school_year" binding:"required"`
 	Semester         uint   `json:"semester" form:"semester" binding:"required"`
 }
+
+/*
+ * Keterangan:
+ *
+ * CommentCreateDTO digunakan saat membuat komentar baru.
+ * CommentUpdateDTO digunakan saat memperbarui komentar yang sudah ada.
+ * CommentDTO digunakan untuk mengirim informasi komentar ke komponen lain.
+ *
+ * Setiap DTO memiliki properti yang sesuai dengan kebutuhan dan aturan validasi tertentu.
+ * Properti yang diberi tag "json" menentukan nama properti saat dikirim dalam format JSON.
+ * Properti yang diberi tag "form" menentukan nama properti saat dikirim melalui formulir HTML.
+ * Properti yang diberi tag "binding" menentukan aturan validasi untuk pengikatan properti.
+ * Properti dengan tag "required" menandakan bahwa properti tersebut wajib diisi.
+ *
+ * Pastikan untuk menggunakan DTO yang sesuai dengan keperluan Anda saat membuat atau memperbarui komentar,
+ * serta ketika mengirim informasi komentar ke komponen lain.
+ */

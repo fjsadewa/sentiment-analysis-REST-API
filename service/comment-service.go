@@ -10,6 +10,7 @@ import (
 	"github.com/jonreiter/govader"
 )
 
+//CommentService adalah interface yang mendefinisikan operasi-operasi yang terkait dengan komentar.
 type CommentService interface {
 	InsertComment(comment dto.CommentCreateDTO) dto.CommentCreateDTO
 	UpdateComment(comment dto.CommentUpdateDTO) dto.CommentUpdateDTO
@@ -18,11 +19,13 @@ type CommentService interface {
 	DeleteComment(id uint64) error
 }
 
+//commentService adalah struct yang mengimplementasikan interface CommentService.
 type commentService struct {
 	commentRepository  repository.CommentRepository
 	lecturerRepository repository.LecturerRepository
 }
 
+//NewCommentServiceWithLecturer digunakan untuk membuat instance baru dari CommentService yang memiliki repository komentar dan repository dosen.
 func NewCommentServiceWithLecturer(commentRepo repository.CommentRepository, lecturerRepo repository.LecturerRepository) CommentService {
 	return &commentService{
 		commentRepository:  commentRepo,
@@ -30,6 +33,7 @@ func NewCommentServiceWithLecturer(commentRepo repository.CommentRepository, lec
 	}
 }
 
+//InsertComment digunakan untuk menyimpan komentar baru ke dalam database.
 func (service *commentService) InsertComment(comment dto.CommentCreateDTO) dto.CommentCreateDTO {
 	commentToInsert := models.Comments{}
 	commentToInsert.Comment = comment.Comment
@@ -70,6 +74,7 @@ func (service *commentService) InsertComment(comment dto.CommentCreateDTO) dto.C
 	return commentDTO
 }
 
+//UpdateComment digunakan untuk mengupdate komentar yang sudah ada di database.
 func (service *commentService) UpdateComment(comment dto.CommentUpdateDTO) dto.CommentUpdateDTO {
 	commentToUpdate := models.Comments{}
 	commentToUpdate.ID = uint64(comment.ID)
@@ -112,6 +117,7 @@ func (service *commentService) UpdateComment(comment dto.CommentUpdateDTO) dto.C
 	return commentDTO
 }
 
+//GetAllComment digunakan untuk mendapatkan semua komentar dari database.
 func (service *commentService) GetAllComment() []dto.CommentDTO {
 	allComment := service.commentRepository.GetAllComment()
 
@@ -138,6 +144,7 @@ func (service *commentService) GetAllComment() []dto.CommentDTO {
 	return commentDTO
 }
 
+//GetCommentByID digunakan untuk mendapatkan komentar berdasarkan ID dari database.
 func (service *commentService) GetCommentByID(id uint64) dto.CommentDTO {
 	comment := service.commentRepository.GetCommentByID(id)
 
@@ -160,6 +167,7 @@ func (service *commentService) GetCommentByID(id uint64) dto.CommentDTO {
 	return commentDTO
 }
 
+//DeleteComment digunakan untuk menghapus komentar dari database berdasarkan ID.
 func (service *commentService) DeleteComment(id uint64) error {
 	err := service.commentRepository.DeleteComment(id)
 	if err != nil {

@@ -8,7 +8,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
-// JWTService is a contract of what jwtservice can do
+//JWTService adalah kontrak tentang apa yang dapat dilakukan oleh JWTService.
 type JWTService interface {
 	GenerateToken(userID string) string
 	ValidateToken(token string) (*jwt.Token, error)
@@ -24,7 +24,7 @@ type jwtService struct {
 	issuer    string
 }
 
-// NewJWTService method is creates a new instance of JWTService
+//NewJWTService adalah metode untuk membuat instance baru dari JWTService.
 func NewJWTService() JWTService {
 	return &jwtService{
 		issuer:    "hadad123",
@@ -32,6 +32,10 @@ func NewJWTService() JWTService {
 	}
 }
 
+/*
+getSecretKey adalah fungsi untuk mendapatkan kunci rahasia dari environment variable JWT_SECRET.
+Jika environment variable tidak ada, maka kunci rahasia default akan digunakan.
+*/
 func getSecretKey() string {
 	secretKey := os.Getenv("JWT_SECRET")
 	if secretKey != "" {
@@ -40,6 +44,7 @@ func getSecretKey() string {
 	return secretKey
 }
 
+//GenerateToken digunakan untuk menghasilkan token JWT berdasarkan userID.
 func (j *jwtService) GenerateToken(UserID string) string {
 	expirationTime := time.Now().Add(3600 * time.Second)
 
@@ -59,6 +64,10 @@ func (j *jwtService) GenerateToken(UserID string) string {
 	return t
 }
 
+/*
+ValidateToken digunakan untuk memvalidasi token JWT.
+Mengembalikan objek jwt.Token jika token valid, atau error jika terjadi kesalahan.
+*/
 func (j *jwtService) ValidateToken(token string) (*jwt.Token, error) {
 	return jwt.Parse(token, func(t_ *jwt.Token) (interface{}, error) {
 		if _, ok := t_.Method.(*jwt.SigningMethodHMAC); !ok {
